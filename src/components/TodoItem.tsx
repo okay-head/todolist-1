@@ -29,6 +29,10 @@ const TodoItem = ({ id, body }: Todo) => {
 	}
 	// Edit the selected todo content
 	const saveHandler = () => {
+		if (input.length == 0) {
+			alert('Cannot be empty!')
+			return
+		}
 		if (input.length > 23) {
 			alert('Input string too large. Reduce the length')
 			return
@@ -36,12 +40,9 @@ const TodoItem = ({ id, body }: Todo) => {
 		const newArray = todos.map((x) => {
 			if (x.id == id) return { id, body: input }
 			return x
-		}) // make a new copy of the state array
-		// newArray[indexOf].body = input // edit the current entry
+		})
 
-		console.log(newArray)
-
-		// setTodos(newArray)
+		setTodos(newArray)
 		setEdit(false)
 	}
 
@@ -72,9 +73,10 @@ const TodoItem = ({ id, body }: Todo) => {
 				<span>
 					{edit ? (
 						<input
-							onKeyDown={handleKeyDown}
 							autoFocus
+							required
 							onFocus={(e) => e.currentTarget.select()}
+							onKeyDown={handleKeyDown}
 							type='text'
 							value={input}
 							onChange={(e) => {

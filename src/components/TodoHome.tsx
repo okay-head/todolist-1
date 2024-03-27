@@ -60,6 +60,7 @@ export default function TodoHome() {
 			<div className='add-todo'>
 				<form onSubmit={handleSubmit} className='flex gap-2'>
 					<input
+						required
 						autoFocus
 						name='text'
 						type='text'
