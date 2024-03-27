@@ -1,5 +1,6 @@
 import { createContext, useMemo, useState } from 'react'
 import TodoItem from './TodoItem'
+import { sha1 } from 'crypto-hash'
 
 const TodoContext = createContext<TContext | null>(null)
 export { TodoContext }
@@ -10,9 +11,9 @@ export default function TodoHome() {
 	// _States_
 	// global-ish todo state
 	const [todos, setTodos] = useState([
-		{ id: 1, body: 'Buy milk' },
-		{ id: 2, body: 'Eat tacos' },
-		{ id: 3, body: 'Brew tea' },
+		{ id: 'hash1', body: 'Buy milk' },
+		{ id: 'hash2', body: 'Eat tacos' },
+		{ id: 'hash3', body: 'Brew tea' },
 	])
 
 	// Parent only input state
@@ -27,7 +28,7 @@ export default function TodoHome() {
 	)
 
 	// _Methods_
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const formdata = new FormData(e.currentTarget)
 		let value: string = ''
@@ -47,8 +48,9 @@ export default function TodoHome() {
 		// }
 		// const text = target.text.value // typechecks!
 		// console.log(text)
+		const newId = await sha1(value + Date.now())
 
-		const newTodo = { id: todos.length + 1, body: value }
+		const newTodo = { id: newId, body: value }
 		setTodos([...todos, newTodo])
 	}
 	return (

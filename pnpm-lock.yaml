@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  crypto-hash:
+    specifier: ^3.0.0
+    version: 3.0.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -1006,6 +1009,11 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-hash@3.0.0:
+    resolution: {integrity: sha512-5l5xGtzuvGTU28GXxGV1JYVFou68buZWpkV1Fx5hIDRPnfbQ8KzabTlNIuDIeSCYGVPFehupzDqlnbXm2IXmdQ==}
+    engines: {node: '>=18'}
+    dev: false
 
   /css-selector-tokenizer@0.8.0:
     resolution: {integrity: sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==}
