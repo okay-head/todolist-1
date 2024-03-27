@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (prefers-reduced-motion) {
+	#strikethrough {
+		transition: none;
+	}
+}
+
+#strikethrough {
+	z-index: 10;
+	transition: 0.2s ease-in;
+	content: '';
+	height: 2px;
+	background-color: var(--white-primary);
+	position: absolute;
+	top: 45%;
+	right: 30%;
+	left: 7%;
+	transform: scaleX(0);
+	transform-origin: left;
+	background-color: currentColor;
+}
+
+.completed {
+	transform: scaleX(1) !important;
+}
