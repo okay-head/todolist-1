@@ -54,7 +54,7 @@ const TodoItem = ({ id, body }: Todo) => {
 	return (
 		<article
 			id={'' + id}
-			className='todo-item flex max-w-[20rem] relative border border-[#9ca3af30] p-3  rounded-md'
+			className='todo-item flex max-w-[21rem] relative border border-[#9ca3af30] p-3  rounded-md'
 		>
 			<span
 				id='strikethrough'

@@ -63,7 +63,7 @@ export default function TodoHome() {
 						autoFocus
 						name='text'
 						type='text'
-						className='input input-bordered input-sm w-full max-w-xs'
+						className='input input-bordered input-sm w-full max-w-[21rem]'
 					/>
 					<button className='btn btn-primary btn-sm'>Add</button>
 				</form>
