@@ -75,7 +75,7 @@ export default function TodoHome() {
 			</div>
 
 			{/* By default, when a parent component re-renders, React re-renders all of its children recursively.  */}
-
+			{/* auto-animate is fucking genius */}
 			<TodoContext.Provider value={{ todos, setTodos }}>
 				<div ref={parent} className='all-todos flex flex-col gap-3 mt-4'>
 					{children}
