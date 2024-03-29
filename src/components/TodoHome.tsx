@@ -1,11 +1,13 @@
 import { createContext, useMemo, useState } from 'react'
 import TodoItem from './TodoItem'
 import { sha1 } from 'crypto-hash'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const TodoContext = createContext<TContext | null>(null)
 export { TodoContext }
 
 export default function TodoHome() {
+	const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 	console.log('Parent render')
 
 	// _States_
@@ -75,7 +77,9 @@ export default function TodoHome() {
 			{/* By default, when a parent component re-renders, React re-renders all of its children recursively.  */}
 
 			<TodoContext.Provider value={{ todos, setTodos }}>
-				<div className='all-todos flex flex-col gap-3 mt-4'>{children}</div>
+				<div ref={parent} className='all-todos flex flex-col gap-3 mt-4'>
+					{children}
+				</div>
 			</TodoContext.Provider>
 		</>
 	)
