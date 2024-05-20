@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useMemo, useRef, useState } from 'react'
 import TodoItem from './TodoItem'
 import { sha1 } from 'crypto-hash'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
@@ -9,7 +9,7 @@ export { TodoContext }
 export default function TodoHome() {
 	const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 	console.log('Parent render')
-
+	const inputRef = useRef(null)
 	// _States_
 	// global-ish todo state
 	const [todos, setTodos] = useState([
@@ -32,28 +32,30 @@ export default function TodoHome() {
 	// _Methods_
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		const formdata = new FormData(e.currentTarget)
-		let value: string = ''
-		for (const [_, val] of formdata.entries()) {
-			value = val.toString()
-		}
+		// @ts-expect-error ...
+		const value = inputRef.current?.value
 		if (value.length > 23) {
 			alert('Input string too large. Reduce the length')
 			return
 		}
 
-		/* Method 2 */
-		// This technique is very hacky just to get around the typecheck
-		// Use either - controlled inputs  |  new FormData
-		// const target = e.target as typeof e.target & {
-		// 	text: { value: string }
-		// }
-		// const text = target.text.value // typechecks!
-		// console.log(text)
+		// /* Method 2 */
+		// // This technique is very hacky just to get around the typecheck
+		// // Use either - controlled inputs  |  new FormData
+		// // const target = e.target as typeof e.target & {
+		// // 	text: { value: string }
+		// // }
+		// // const text = target.text.value // typechecks!
+		// // console.log(text)
 		const newId = await sha1(value + Date.now())
 
 		const newTodo = { id: newId, body: value }
 		setTodos([...todos, newTodo])
+
+		// @ts-expect-error ...
+		inputRef.current.value = ''
+		// @ts-expect-error ...
+		inputRef.current.focus()
 	}
 	return (
 		<>
@@ -64,6 +66,7 @@ export default function TodoHome() {
 			<div className='add-todo'>
 				<form onSubmit={handleSubmit} className='flex gap-2'>
 					<input
+						ref={inputRef}
 						required
 						autoFocus
 						name='text'
