@@ -1,4 +1,4 @@
-import { createContext, useMemo, useRef, useState } from 'react'
+import { createContext, useRef, useState } from 'react'
 import TodoItem from './TodoItem'
 import { sha1 } from 'crypto-hash'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
@@ -7,7 +7,7 @@ const TodoContext = createContext<TContext | null>(null)
 export { TodoContext }
 
 export default function TodoHome() {
-	const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+	const [parent] = useAutoAnimate(/* optional config */)
 	console.log('Parent render')
 	const inputRef = useRef(null)
 	// _States_
