@@ -24,39 +24,66 @@ export default function TodoHome() {
 
 	// 🔴 This doesn't work with a controlled component because the child component uses state which is declared in the parent component, this state variable is created in every render, hence with every render of the parent, n child components get re-rendered
 	// Solution: Make the TODO input uncontrolled and you can skip memo altogether. (that is what we did)
-	const children = useMemo(
-		() => todos.map((x) => <TodoItem key={x.id} {...x} />),
-		[todos]
-	)
+	// const children = useMemo(
+	// 	() => todos.map((x) => <TodoItem key={x.id} {...x} />),
+	// 	[todos]
+	// )
+
+
+	// to avoid prod glitches
+	const children = todos.map((x) => <TodoItem key={x.id} {...x} />)
 
 	// _Methods_
+	// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	// 	e.preventDefault()
+	// 	// @ts-expect-error ...
+	// 	const value = inputRef.current?.value
+	// 	if (value.length > 23) {
+	// 		alert('Input string too large. Reduce the length')
+	// 		return
+	// 	}
+
+	// 	// /* Method 2 */
+	// 	// // This technique is very hacky just to get around the typecheck
+	// 	// // Use either - controlled inputs  |  new FormData
+	// 	// // const target = e.target as typeof e.target & {
+	// 	// // 	text: { value: string }
+	// 	// // }
+	// 	// // const text = target.text.value // typechecks!
+	// 	// // console.log(text)
+	// 	const newId = await sha1(value + Date.now())
+
+	// 	const newTodo = { id: newId, body: value }
+	// 	setTodos([...todos, newTodo])
+
+	// 	// @ts-expect-error ...
+	// 	inputRef.current?.value = ''
+	// 	// @ts-expect-error ...
+	// 	inputRef.current.focus()
+	// }
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		// @ts-expect-error ...
-		const value = inputRef.current?.value
-		if (value.length > 23) {
-			alert('Input string too large. Reduce the length')
-			return
-		}
+  e.preventDefault()
+	const current = e.currentTarget
+  const formData = new FormData(current)
+	
+  const value = formData.get('text')?.toString().trim()
 
-		// /* Method 2 */
-		// // This technique is very hacky just to get around the typecheck
-		// // Use either - controlled inputs  |  new FormData
-		// // const target = e.target as typeof e.target & {
-		// // 	text: { value: string }
-		// // }
-		// // const text = target.text.value // typechecks!
-		// // console.log(text)
-		const newId = await sha1(value + Date.now())
+  if (!value) return
+  if (value.length > 23) {
+    alert('Input string too large. Reduce the length')
+    return
+  }
 
-		const newTodo = { id: newId, body: value }
-		setTodos([...todos, newTodo])
+  const newId = await sha1(value + Date.now())
+  const newTodo = { id: newId, body: value }
+  setTodos((prev) => [...prev, newTodo])
 
-		// @ts-expect-error ...
-		inputRef.current.value = ''
-		// @ts-expect-error ...
-		inputRef.current.focus()
-	}
+  current.reset()
+	// @ts-expect-error ...
+  inputRef.current?.focus()
+}
+
 	return (
 		<>
 			<h1 className='text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-br from-[#7480ff] to-[#282c34]'>
